@@ -1,6 +1,7 @@
 #include "../src/include/lexer.h"
 #include <assert.h>
 #include <stddef.h>
+#include <string.h>
 
 void test_lexer_init() {
     char *content = "hello";
@@ -23,9 +24,36 @@ void test_lexer_free() {
     assert(lexer == NULL);
 }
 
+void test_lexer_next() {
+    char *content = "2.2 + 1 - 10 * 20 / (40.6 - 2.6) @";
+    Lexer *lexer = lexer_init(content);
+
+    Token *expectations[] = {
+        token_init(TOKEN_NUMBER, "2.2"),    token_init(TOKEN_PLUS, "+"),
+        token_init(TOKEN_NUMBER, "1"),      token_init(TOKEN_MINUS, "-"),
+        token_init(TOKEN_NUMBER, "10"),     token_init(TOKEN_ASTERISK, "*"),
+        token_init(TOKEN_NUMBER, "20"),     token_init(TOKEN_SLASH, "/"),
+        token_init(TOKEN_OPEN_PAREN, "("),  token_init(TOKEN_NUMBER, "40.6"),
+        token_init(TOKEN_MINUS, "-"),       token_init(TOKEN_NUMBER, "2.6"),
+        token_init(TOKEN_CLOSE_PAREN, ")"), token_init(TOKEN_ILLEGAL, "@"),
+        token_init(TOKEN_EOF, "\0")};
+    int length = sizeof(expectations) / sizeof(Token *);
+
+    for (int index = 0; index < length; index++) {
+        Token *token = lexer_next(lexer);
+        assert(token->type == expectations[index]->type);
+        assert(strcmp(token->value, expectations[index]->value) == 0);
+        token_free(&token);
+        token_free(&expectations[index]);
+    }
+
+    lexer_free(&lexer);
+}
+
 int main() {
     test_lexer_init();
     test_lexer_free();
+    test_lexer_next();
 
     return 0;
 }

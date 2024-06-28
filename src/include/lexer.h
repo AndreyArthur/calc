@@ -1,6 +1,8 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#include "token.h"
+
 typedef struct {
     const char *content;
     char current;
@@ -11,5 +13,7 @@ typedef struct {
 Lexer *lexer_init(const char *content);
 
 void lexer_free(Lexer **pointer);
+
+Token *lexer_next(Lexer *lexer);
 
 #endif
