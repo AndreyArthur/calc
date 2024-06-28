@@ -14,24 +14,38 @@ clean:
 run: build_main
 	./bin/main
 
-test: token_test
+test: token_test lexer_test
 
 token_test: build_token_test
 	./bin/token_test
 
+lexer_test: build_lexer_test
+	./bin/lexer_test
+
 build_main: $(BIN_DIR) objects
-	$(CC) $(CFLAGS) -o $(BIN_DIR)/main $(addprefix $(OBJ_DIR)/, token.o \
+	$(CC) $(CFLAGS) -o $(BIN_DIR)/main $(addprefix $(OBJ_DIR)/, \
+	token.o \
+	lexer.o \
 	main.o)
 
 build_token_test: $(BIN_DIR) objects
-	$(CC) $(CFLAGS) -o $(BIN_DIR)/token_test $(addprefix $(OBJ_DIR)/, token.o \
+	$(CC) $(CFLAGS) -o $(BIN_DIR)/token_test $(addprefix $(OBJ_DIR)/, \
+	token.o \
+	lexer.o \
 	token_test.o)
+
+build_lexer_test: $(BIN_DIR) objects
+	$(CC) $(CFLAGS) -o $(BIN_DIR)/lexer_test $(addprefix $(OBJ_DIR)/, \
+	token.o \
+	lexer.o \
+	lexer_test.o)
 
 objects: $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/main.c -o $(OBJ_DIR)/main.o && \
 	$(CC) $(CFLAGS) -c $(SRC_DIR)/token.c -o $(OBJ_DIR)/token.o && \
-	$(CC) $(CFLAGS) -c $(TEST_DIR)/token_test.c -o $(OBJ_DIR)/token_test.o
-
+	$(CC) $(CFLAGS) -c $(SRC_DIR)/lexer.c -o $(OBJ_DIR)/lexer.o && \
+	$(CC) $(CFLAGS) -c $(TEST_DIR)/token_test.c -o $(OBJ_DIR)/token_test.o && \
+	$(CC) $(CFLAGS) -c $(TEST_DIR)/lexer_test.c -o $(OBJ_DIR)/lexer_test.o
 
 $(OBJ_DIR):
 	mkdir -p $@
