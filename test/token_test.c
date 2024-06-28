@@ -13,8 +13,16 @@ void test_token_init() {
     token_free(&token);
 }
 
+void test_token_free() {
+    Token *token = token_init(TOKEN_EOF, "\0");
+    token_free(&token);
+
+    assert(token == NULL);
+}
+
 int main() {
     test_token_init();
+    test_token_free();
 
     return 0;
 }
