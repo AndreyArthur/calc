@@ -1,4 +1,5 @@
 #include "include/lexer.h"
+#include "include/buffer.h"
 #include "include/token.h"
 #include <stdlib.h>
 #include <string.h>
@@ -48,35 +49,30 @@ static void lexer_skip_whitespaces(Lexer *lexer) {
 }
 
 static Token *lexer_collect_number(Lexer *lexer) {
-    int length = 0;
-    char *text = strdup("");
+    Buffer *buffer = buffer_init();
     while (lexer->current >= '0' && lexer->current <= '9') {
-        length++;
-        text = realloc(text, sizeof(char) * length + 1);
-        strcat(text, &lexer->current);
+        buffer_write_char(buffer, lexer->current);
         lexer_advance(lexer);
     }
 
     if (lexer->current != '.') {
-        Token *token = token_init(TOKEN_NUMBER, text);
-        free(text);
+        char *value = buffer_into_string(buffer);
+        Token *token = token_init(TOKEN_NUMBER, value);
+        free(value);
         return token;
     }
 
-    length++;
-    text = realloc(text, sizeof(char) * length + 1);
-    strcat(text, &lexer->current);
+    buffer_write_char(buffer, lexer->current);
     lexer_advance(lexer);
 
     while (lexer->current >= '0' && lexer->current <= '9') {
-        length++;
-        text = realloc(text, sizeof(char) * length + 1);
-        strcat(text, &lexer->current);
+        buffer_write_char(buffer, lexer->current);
         lexer_advance(lexer);
     }
 
-    Token *token = token_init(TOKEN_NUMBER, text);
-    free(text);
+    char *value = buffer_into_string(buffer);
+    Token *token = token_init(TOKEN_NUMBER, value);
+    free(value);
     return token;
 }
 
