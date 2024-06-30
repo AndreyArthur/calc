@@ -12,7 +12,7 @@ install: build
 	cp ./calc /usr/bin/
 
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR)
+	rm -rf $(OBJ_DIR) $(BIN_DIR) ./calc
 
 run: build_main
 	./bin/main
