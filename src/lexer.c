@@ -102,3 +102,18 @@ Token *lexer_next(Lexer *lexer) {
     }
     }
 }
+
+Token **lexer_lex(Lexer *lexer) {
+    Token **tokens = malloc(sizeof(Token *) * 1);
+    unsigned long current = 0;
+    for (;;) {
+        Token *token = lexer_next(lexer);
+        tokens[current] = token;
+        if (token->type == TOKEN_EOF) {
+            break;
+        }
+        current++;
+        tokens = realloc(tokens, sizeof(Token *) * (current + 1));
+    }
+    return tokens;
+}

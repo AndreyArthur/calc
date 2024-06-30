@@ -16,4 +16,6 @@ void lexer_free(Lexer **pointer);
 
 Token *lexer_next(Lexer *lexer);
 
+Token **lexer_lex(Lexer *lexer);
+
 #endif
