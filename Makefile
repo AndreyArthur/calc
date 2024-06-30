@@ -6,7 +6,10 @@ OBJ_DIR=obj
 BIN_DIR=bin
 TEST_DIR=test
 
-all: build_main
+all: build
+
+install: build
+	cp ./calc /usr/bin/
 
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
@@ -33,6 +36,10 @@ parser_test: build_parser_test
 
 evaluator_test: build_evaluator_test
 	./bin/evaluator_test
+
+build: build_main
+	cp ./bin/main .
+	mv main calc
 
 build_main: $(BIN_DIR) objects
 	$(CC) $(CFLAGS) -o $(BIN_DIR)/main $(addprefix $(OBJ_DIR)/, \
