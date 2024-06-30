@@ -105,7 +105,7 @@ static Token *lexer_next(Lexer *lexer) {
 
 Token **lexer_lex(Lexer *lexer) {
     Token **tokens = malloc(sizeof(Token *) * 1);
-    unsigned long current = 0;
+    size_t current = 0;
     for (;;) {
         Token *token = lexer_next(lexer);
         tokens[current] = token;

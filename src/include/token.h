@@ -19,6 +19,7 @@ typedef struct {
 } Token;
 
 Token *token_init(TokenType type, const char *value);
+
 void token_free(Token **pointer);
 
 #endif

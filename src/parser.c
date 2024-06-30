@@ -1,5 +1,4 @@
 #include "include/parser.h"
-#include "include/lexer.h"
 #include "include/token.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,13 +6,13 @@
 Parser *parser_init(Token **tokens) {
     Parser *parser = malloc(sizeof(Parser));
 
-    unsigned long index = 0;
+    size_t index = 0;
     Token *token = tokens[index];
     while (token->type != TOKEN_EOF) {
         index++;
         token = tokens[index];
     }
-    unsigned long length = index + 1;
+    size_t length = index + 1;
 
     parser->length = length;
     parser->tokens = tokens;
@@ -26,7 +25,7 @@ Parser *parser_init(Token **tokens) {
 void parser_free(Parser **pointer) {
     Parser *parser = *pointer;
 
-    for (unsigned long index = 0; index < parser->length; index++) {
+    for (size_t index = 0; index < parser->length; index++) {
         token_free(&parser->tokens[index]);
     }
     free(parser->tokens);

@@ -2,12 +2,13 @@
 #define LEXER_H
 
 #include "token.h"
+#include <stddef.h>
 
 typedef struct {
     const char *content;
     char current;
-    unsigned long position;
-    unsigned long length;
+    size_t position;
+    size_t length;
 } Lexer;
 
 Lexer *lexer_init(const char *content);
