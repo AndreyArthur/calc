@@ -76,7 +76,7 @@ static Token *lexer_collect_number(Lexer *lexer) {
     return token;
 }
 
-Token *lexer_next(Lexer *lexer) {
+static Token *lexer_next(Lexer *lexer) {
     lexer_skip_whitespaces(lexer);
 
     switch (lexer->current) {
