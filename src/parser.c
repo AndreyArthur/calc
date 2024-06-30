@@ -4,23 +4,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Parser *parser_init(Lexer *lexer) {
-    Token **tokens = malloc(sizeof(Token *) * 1);
-    unsigned long current = 0;
-    for (;;) {
-        Token *token = lexer_next(lexer);
-        tokens[current] = token;
-        if (token->type == TOKEN_EOF) {
-            break;
-        }
-        current++;
-        tokens = realloc(tokens, sizeof(Token *) * (current + 1));
-    }
-    lexer_free(&lexer);
-
-    unsigned long length = current + 1;
-
+Parser *parser_init(Token **tokens) {
     Parser *parser = malloc(sizeof(Parser));
+
+    unsigned long index = 0;
+    Token *token = tokens[index];
+    while (token->type != TOKEN_EOF) {
+        index++;
+        token = tokens[index];
+    }
+    unsigned long length = index + 1;
 
     parser->length = length;
     parser->tokens = tokens;

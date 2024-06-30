@@ -12,7 +12,7 @@ typedef struct {
     unsigned long length;
 } Parser;
 
-Parser *parser_init(Lexer *lexer);
+Parser *parser_init(Token **tokens);
 
 void parser_free(Parser **pointer);
 

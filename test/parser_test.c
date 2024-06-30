@@ -6,7 +6,9 @@
 
 void test_parser_init() {
     Lexer *lexer = lexer_init("2 + 2");
-    Parser *parser = parser_init(lexer);
+    Token **tokens = lexer_lex(lexer);
+    lexer_free(&lexer);
+    Parser *parser = parser_init(tokens);
 
     assert(parser->tokens[0] == parser->current);
     assert(parser->length == 4);
@@ -19,7 +21,9 @@ void test_parser_init() {
 
 void test_parser_free() {
     Lexer *lexer = lexer_init("2 + 2");
-    Parser *parser = parser_init(lexer);
+    Token **tokens = lexer_lex(lexer);
+    lexer_free(&lexer);
+    Parser *parser = parser_init(tokens);
 
     parser_free(&parser);
 
@@ -28,7 +32,9 @@ void test_parser_free() {
 
 void test_parser_parse() {
     Lexer *lexer = lexer_init("(2 + 2 * 4) / (3 - 2)");
-    Parser *parser = parser_init(lexer);
+    Token **tokens = lexer_lex(lexer);
+    lexer_free(&lexer);
+    Parser *parser = parser_init(tokens);
     Ast *ast = parser_parse(parser);
     parser_free(&parser);
 
